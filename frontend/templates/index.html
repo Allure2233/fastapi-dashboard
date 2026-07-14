@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastAPI Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="navbar">
+            <div class="container">
+                <a href="/" class="navbar-brand">Dashboard</a>
+                <ul class="navbar-nav">
+                    <li><a href="/" class="active">首页</a></li>
+                    <li><a href="/login">登录</a></li>
+                    <li><a href="/register">注册</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="container" style="padding-top: 40px;">
+            <h1>欢迎来到 FastAPI Dashboard</h1>
+            <p style="color: #666; margin: 20px 0;">一个现代化的全栈 Web 应用，使用 FastAPI + SQLAlchemy + Jinja2 构建</p>
+            
+            <div class="cards">
+                <div class="card">
+                    <h3>技术栈</h3>
+                    <div class="value">Python</div>
+                    <p style="color: #666; margin-top: 10px;">FastAPI 框架</p>
+                </div>
+                <div class="card">
+                    <h3>数据库</h3>
+                    <div class="value">SQLite</div>
+                    <p style="color: #666; margin-top: 10px;">支持 PostgreSQL/MySQL</p>
+                </div>
+                <div class="card">
+                    <h3>认证</h3>
+                    <div class="value">JWT</div>
+                    <p style="color: #666; margin-top: 10px;">安全的令牌认证</p>
+                </div>
+            </div>
+            
+            <div style="background: white; border-radius: 12px; padding: 25px; margin-top: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <h3>功能特性</h3>
+                <ul style="margin-left: 20px; color: #666;">
+                    <li>用户注册和登录系统</li>
+                    <li>JWT 令牌认证</li>
+                    <li>用户资料管理</li>
+                    <li>用户列表管理</li>
+                    <li>响应式设计，支持移动端</li>
+                    <li>完整的 API 文档</li>
+                    <li>Docker 容器化支持</li>
+                    <li>GitHub Actions CI/CD</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

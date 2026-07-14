@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理 - FastAPI Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="navbar">
+            <div class="container">
+                <a href="/dashboard" class="navbar-brand">Dashboard</a>
+                <ul class="navbar-nav">
+                    <li><a href="/dashboard">仪表盘</a></li>
+                    <li><a href="/users" class="active">用户管理</a></li>
+                    <li><a href="/profile">个人资料</a></li>
+                    <li><a href="#" id="logout-btn">退出登录</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="container">
+            <h1>用户管理</h1>
+            <div id="message-area"></div>
+            
+            <div class="users-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>用户名</th>
+                            <th>邮箱</th>
+                            <th>姓名</th>
+                            <th>角色</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/static/js/app.js"></script>
+    <script>
+        async function loadUsers() {
+            const profile = await getUserProfile();
+            if (!profile) {
+                window.location.href = '/login';
+                return;
+            }
+            
+            const users = await getUsers();
+            const tbody = document.getElementById('users-table-body');
+            tbody.innerHTML = '';
+            
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td>${user.full_name}</td>
+                    <td>${user.role}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn-edit" onclick="editUser(${user.id})">编辑</button>
+                            <button class="btn-delete" onclick="confirmDelete(${user.id})">删除</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        function editUser(userId) {
+            alert(`编辑用户 ID: ${userId}`);
+        }
+        
+        async function confirmDelete(userId) {
+            if (confirm('确定要删除这个用户吗？')) {
+                const result = await deleteUser(userId);
+                
+                const messageArea = document.getElementById('message-area');
+                messageArea.innerHTML = '';
+                
+                if (result.success) {
+                    const successDiv = document.createElement('div');
+                    successDiv.className = 'success-message';
+                    successDiv.textContent = '用户删除成功！';
+                    messageArea.appendChild(successDiv);
+                    loadUsers();
+                } else {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'error-message';
+                    errorDiv.textContent = result.message;
+                    messageArea.appendChild(errorDiv);
+                }
+            }
+        }
+        
+        loadUsers();
+    </script>
+</body>
+</html>

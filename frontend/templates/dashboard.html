@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仪表盘 - FastAPI Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="navbar">
+            <div class="container">
+                <a href="/dashboard" class="navbar-brand">Dashboard</a>
+                <ul class="navbar-nav">
+                    <li><a href="/dashboard" class="active">仪表盘</a></li>
+                    <li><a href="/users">用户管理</a></li>
+                    <li><a href="/profile">个人资料</a></li>
+                    <li><a href="#" id="logout-btn">退出登录</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="container">
+            <h1>仪表盘</h1>
+            
+            <div class="cards">
+                <div class="card">
+                    <h3>总用户数</h3>
+                    <div class="value" id="total-users">-</div>
+                    <div class="trend up">↑ 12% 本月</div>
+                </div>
+                <div class="card">
+                    <h3>活跃用户</h3>
+                    <div class="value" id="active-users">-</div>
+                    <div class="trend up">↑ 8% 本周</div>
+                </div>
+                <div class="card">
+                    <h3>新注册</h3>
+                    <div class="value" id="new-users">-</div>
+                    <div class="trend down">↓ 3% 昨日</div>
+                </div>
+                <div class="card">
+                    <h3>API 请求</h3>
+                    <div class="value" id="api-requests">-</div>
+                    <div class="trend up">↑ 15% 今日</div>
+                </div>
+            </div>
+            
+            <div class="content-row">
+                <div class="chart-container">
+                    <h3>用户增长趋势</h3>
+                    <div style="height: 200px; display: flex; align-items: flex-end; gap: 10px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                        <div style="flex: 1; background: #4a90d9; height: 60%; border-radius: 4px;"></div>
+                        <div style="flex: 1; background: #4a90d9; height: 70%; border-radius: 4px;"></div>
+                        <div style="flex: 1; background: #4a90d9; height: 55%; border-radius: 4px;"></div>
+                        <div style="flex: 1; background: #4a90d9; height: 80%; border-radius: 4px;"></div>
+                        <div style="flex: 1; background: #4a90d9; height: 75%; border-radius: 4px;"></div>
+                        <div style="flex: 1; background: #4a90d9; height: 90%; border-radius: 4px;"></div>
+                        <div style="flex: 1; background: #4a90d9; height: 100%; border-radius: 4px;"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-around; margin-top: 10px; color: #666; font-size: 12px;">
+                        <span>周一</span><span>周二</span><span>周三</span><span>周四</span><span>周五</span><span>周六</span><span>周日</span>
+                    </div>
+                </div>
+                
+                <div class="activity-container">
+                    <h3>最近活动</h3>
+                    <ul class="activity-list">
+                        <li>
+                            <div class="activity-icon login">👤</div>
+                            <div class="activity-content">
+                                <p>用户登录系统</p>
+                                <span>2分钟前</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="activity-icon register">➕</div>
+                            <div class="activity-content">
+                                <p>新用户注册</p>
+                                <span>15分钟前</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="activity-icon update">✏️</div>
+                            <div class="activity-content">
+                                <p>用户更新资料</p>
+                                <span>1小时前</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="activity-icon login">👤</div>
+                            <div class="activity-content">
+                                <p>管理员登录</p>
+                                <span>2小时前</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/static/js/app.js"></script>
+    <script>
+        async function loadDashboard() {
+            const profile = await getUserProfile();
+            if (!profile) {
+                window.location.href = '/login';
+                return;
+            }
+            
+            const users = await getUsers();
+            document.getElementById('total-users').textContent = users.length;
+            document.getElementById('active-users').textContent = Math.floor(users.length * 0.8);
+            document.getElementById('new-users').textContent = Math.floor(users.length * 0.1);
+            document.getElementById('api-requests').textContent = Math.floor(Math.random() * 500 + 1000);
+        }
+        
+        loadDashboard();
+    </script>
+</body>
+</html>
